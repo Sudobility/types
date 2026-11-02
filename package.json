@@ -1,6 +1,6 @@
 {
   "name": "@sudobility/types",
-  "version": "1.9.76",
+  "version": "1.9.77",
   "description": "Comprehensive TypeScript types, interfaces, and utilities for Web3 email applications - optimized for AI-assisted development",
   "type": "module",
   "main": "./dist/index.js",
@@ -28,7 +28,7 @@
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.esm.json",
+    "build": "tsc -p tsconfig.esm.json && node scripts/fix-esm-imports.mjs",
     "clean": "rimraf dist",
     "dev": "tsc --watch",
     "test:unit": "vitest run",
