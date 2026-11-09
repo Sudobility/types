@@ -1,14 +1,25 @@
 # @sudobility/types
 
-Comprehensive TypeScript type definitions and utilities for Web3 email applications. Zero runtime dependencies, dual module support (ESM + CommonJS).
+Comprehensive TypeScript type definitions and utilities for Web3 email applications across the 0xmail ecosystem. Zero runtime dependencies, ESM-only, tree-shakeable.
 
 ## Installation
 
-```bash
-bun install @sudobility/types
+This package is published to **GitHub Packages**, not the public npm registry. Consumers need an `.npmrc` that routes the `@sudobility` scope to GitHub Packages with a read token:
+
+```
+@sudobility:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GH_PACKAGES_READ_TOKEN}
 ```
 
-No peer dependencies required.
+Then:
+
+```bash
+bun install @sudobility/types   # or: npm install / pnpm add
+```
+
+No peer dependencies and no runtime dependencies.
+
+> ESM-only. The package sets `"type": "module"` and ships only ESM output; there is no CommonJS build. Consume it from an ESM context (or a bundler).
 
 ## Usage
 
@@ -37,37 +48,40 @@ formatWalletAddress('0x742d35Cc6634C0532925a3b8D2C36B7f12345678');  // "0x742d..
 
 ### Enums
 
-Key enums: `AuthStatus`, `Chain` (60+ chains), `ChainType`, `ConnectionState`, `Theme`, `EmailAction`, `RequestStatus`, `WalletType`, `EntityType`, `EntityRole`, and more.
+Key enums: `AuthStatus`, `Chain` (60+ chains), `ChainType`, `ConnectionState`, `Theme`, `EmailAction`, `RequestStatus`, `WalletType`, `EntityType`, `EntityRole`, and more. Enums are emitted as runtime values (imported with `import { ... }`, not `import type`).
 
 ### Import Paths
 
 ```typescript
-import { ... } from '@sudobility/types';        // Full library
-import { ... } from '@sudobility/types/api';     // Indexer response types
-import { ... } from '@sudobility/types/enums';   // Business enums only
+import { ... } from '@sudobility/types';            // Full library (barrel)
+import { ... } from '@sudobility/types/enums';       // Business enums only
+import { ... } from '@sudobility/types/blockchain';  // Blockchain types only
 ```
 
 ## Development
 
 ```bash
-bun install
-bun run build          # Build dual ESM + CJS output
-bun run dev            # Watch mode
-bun test               # Run tests (Vitest)
-bun run typecheck      # TypeScript check
+bun install            # Install dev dependencies
+bun run build          # Build ESM output to dist/ (tsc + ESM import-path fixup)
+bun run dev            # Watch-mode typecheck
+bun run test:unit      # Run tests (Vitest) — NOT `bun test`, which uses Bun's own runner
+bun run test:watch     # Tests in watch mode
+bun run typecheck      # TypeScript check (no emit)
 bun run lint           # ESLint (flat config)
 bun run format         # Prettier
-bun run verify         # Full pipeline: typecheck + lint + test + build
+bun run verify         # Full pipeline: typecheck + lint + test:unit + build
 ```
 
 ## Key Exports
 
 - **Types**: `Optional<T>`, `Result<T,E>`, `ValidationResult<T>`, `BaseResponse<T>`, `PaginatedResponse<T>`, `UnifiedError`
 - **Enums**: `AuthStatus`, `Chain`, `ChainType`, `ConnectionState`, `Theme`, `EmailAction`, `WalletType`, `EntityType`, `EntityRole`, and more
-- **Validators**: `isEvmAddress`, `isSolanaAddress`, `isENSName`, `isSNSName`, `Web3UsernameValidator`, `validateAddress`, `validateAmount`, type guards
+- **Validators**: `isEvmAddress`, `isSolanaAddress`, `isENSName`, `isSNSName`, `Web3UsernameValidator`, `validateAddress`, `validateAmount`, runtime type guards
 - **Formatters**: `formatWalletAddress`, `formatUSDC`, `formatEmailDate`, `formatRelativeTime`, `formatBytes`, `truncate`, `capitalize`, and more
 - **Async Helpers**: `safeAsync`, `withLoadingState`, `safeParallel`, `withTimeout`, `withCache`, `debounceAsync`
-- **Infrastructure**: `NetworkClient`, `AnalyticsService`, `UINavigationService`
+- **Infrastructure interfaces**: `NetworkClient`, `AnalyticsService`, `UINavigationService`
+
+The complete public surface is the barrel in [`src/index.ts`](src/index.ts).
 
 ## License
 

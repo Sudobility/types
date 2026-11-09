@@ -1,12 +1,11 @@
 /**
- * @johnqh/types - Common TypeScript types for Web3 email projects
+ * @sudobility/types - Common TypeScript types for Web3 email projects
  *
  * This package contains all shared TypeScript definitions used across
  * Web3 email applications including business logic types, blockchain
  * types, configuration interfaces, infrastructure types, and utility functions.
  *
- * @version 1.0.0
- * @license MIT
+ * @license BUSL-1.1
  */
 
 // ============================================================================
