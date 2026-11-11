@@ -223,6 +223,27 @@ export type {
 } from './types/consumables/index.js';
 
 // ============================================================================
+// TYPES - Resources
+// ============================================================================
+
+export type {
+  ResourceApp,
+  Resource,
+  ResourceSection,
+  ResourceSectionWithResources,
+  ResourceDataResponse,
+  ResourceAppListResponse,
+  ResourceLanguageListResponse,
+  ResourceSectionListResponse,
+  ResourceAppInput,
+  ResourceLanguageInput,
+  ResourceSectionInput,
+  ResourceSectionPatch,
+  ResourceInput,
+  ResourcePatch,
+} from './types/resources/index.js';
+
+// ============================================================================
 // TYPES - Entity
 // ============================================================================
 
