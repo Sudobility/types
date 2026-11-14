@@ -22,7 +22,7 @@ permissions:
 
 jobs:
   cicd:
-    uses: johnqh/workflows/.github/workflows/unified-cicd.yml@main
+    uses: Sudobility/workflows/.github/workflows/unified-cicd.yml@main
     secrets: inherit
     with:
       publish-target: github   # publish @sudobility/types to GitHub Packages
