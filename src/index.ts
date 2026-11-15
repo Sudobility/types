@@ -24,7 +24,11 @@ export type {
   UnifiedError,
   Result,
   ValidationResult,
+  ApiInfoResponse,
+  HealthResponse,
+  HealthCheckData,
 } from './types/common.js';
+export { successResponse, errorResponse } from './types/common.js';
 
 // ============================================================================
 // TYPES - Business

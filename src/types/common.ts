@@ -261,3 +261,50 @@ export type Result<T, E = UnifiedError> =
 export type ValidationResult<T = unknown> =
   | { isValid: true; data: T }
   | { isValid: false; error: string; data?: Optional<never> };
+
+/**
+ * Response for a service's root metadata endpoint (`GET /`).
+ *
+ * @since 1.11.0
+ */
+export interface ApiInfoResponse {
+  /** Service name. */
+  name: string;
+  /** Service version. */
+  version: string;
+  /** Short status word, e.g. `"healthy"`. */
+  status: string;
+}
+
+/**
+ * Response for a service health check endpoint (`GET /health`).
+ *
+ * @since 1.11.0
+ */
+export interface HealthResponse {
+  /** Health status word, e.g. `"ok"`. */
+  status: string;
+  /** Service version. */
+  version: string;
+}
+
+/** Alias for {@link HealthResponse}. */
+export type HealthCheckData = HealthResponse;
+
+/**
+ * Construct a successful {@link BaseResponse} envelope.
+ *
+ * @since 1.11.0
+ */
+export function successResponse<T>(data: T): BaseResponse<T> {
+  return { success: true, data, timestamp: new Date().toISOString() };
+}
+
+/**
+ * Construct an error {@link BaseResponse} envelope.
+ *
+ * @since 1.11.0
+ */
+export function errorResponse(error: string): BaseResponse<never> {
+  return { success: false, error, timestamp: new Date().toISOString() };
+}
