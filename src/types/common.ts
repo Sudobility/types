@@ -286,6 +286,15 @@ export interface HealthResponse {
   status: string;
   /** Service version. */
   version: string;
+  /**
+   * Optional additional health detail as a plain string-keyed map; values may
+   * be anything. Each API defines its own structure for what it puts here
+   * (e.g. dependency status, indexed counts, composed sub-services) while
+   * still returning the standard `{ status, version }` envelope.
+   *
+   * @since 1.12.0
+   */
+  detail?: Record<string, unknown>;
 }
 
 /** Alias for {@link HealthResponse}. */
@@ -307,4 +316,30 @@ export function successResponse<T>(data: T): BaseResponse<T> {
  */
 export function errorResponse(error: string): BaseResponse<never> {
   return { success: false, error, timestamp: new Date().toISOString() };
+}
+
+/**
+ * Construct a {@link PaginatedResponse} from an offset/limit window.
+ *
+ * `hasNextPage` is derived from `offset + items.length < totalCount`, so it is
+ * correct even when the last page is short. `pageSize` reports the requested
+ * `limit`, not `items.length`.
+ *
+ * @since 1.12.0
+ */
+export function paginatedResponse<T>(
+  items: T[],
+  window: { limit: number; offset: number; totalCount: number }
+): PaginatedResponse<T> {
+  return {
+    success: true,
+    data: items,
+    timestamp: new Date().toISOString(),
+    pagination: {
+      hasNextPage: window.offset + items.length < window.totalCount,
+      hasPreviousPage: window.offset > 0,
+      pageSize: window.limit,
+      totalCount: window.totalCount,
+    },
+  };
 }

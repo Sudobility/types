@@ -28,7 +28,11 @@ export type {
   HealthResponse,
   HealthCheckData,
 } from './types/common.js';
-export { successResponse, errorResponse } from './types/common.js';
+export {
+  successResponse,
+  errorResponse,
+  paginatedResponse,
+} from './types/common.js';
 
 // ============================================================================
 // TYPES - Business
